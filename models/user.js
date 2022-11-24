@@ -1,4 +1,5 @@
-var Pr = MODULE('Promise');   
+var Pr = MODULE('Promise'); 
+
 NEWSCHEMA('User', function(schema) {
 	schema.define('id'        		, 'Number'     	  	          );  	
 	schema.define('first_name'      , 'String(50)',  true, 'cu' 	  );  	
@@ -11,8 +12,10 @@ NEWSCHEMA('User', function(schema) {
 	schema.define('password'   	    , 'String(50)',   	   'c'	  );  	
 	schema.define('telegram_uid'    , 'String(50)',	  	   'cu'	  );  	
 	schema.define('created_at'      , 'Datetime'  ,	  	   'c'     );  	
-	schema.define('updated_at'      , 'Datetime'  ,	       'u'     );  	
-	schema.setResource('default');      
+	schema.define('updated_at'      , 'Datetime'  ,	       'u'     );  
+
+	schema.setResource('default');  
+
 	schema.setDefault(function(property) {    		
 		if (property === 'status')      	   return 1;   	
 		if (property === 'created_at')         return new Date();   	
@@ -46,6 +49,7 @@ NEWSCHEMA('User', function(schema) {
 	        	else builder.where('status', 1); 
 	       	builder.first();		
 		})	
+
 		sql.exec(function(err, resp) {                      
 			if (err) {        
                 LOGGER('error', 'User/get', err);          
@@ -56,6 +60,7 @@ NEWSCHEMA('User', function(schema) {
             return $.success(true, resp);                        
 		}, 'user')	
 	});
+	
 	schema.setSave(function ($) {	
 		var model = schema.clean($.model); 
 		var isINSERT = (model.id ==0) ? true : false;  
@@ -69,6 +74,7 @@ NEWSCHEMA('User', function(schema) {
 	        	builder.where('id', model.id);        
 	      	}            	      	
 	    })
+
 	    sql.exec(function(err, user) {	
 			if (err) {
 				LOGGER('error', 'User/save', err);          	        	
@@ -78,16 +84,19 @@ NEWSCHEMA('User', function(schema) {
 	      	return $.success(true, model);               
   		}, 'user')		
 	});
+	
 	schema.setRemove(function ($) {	
 		var o = Object.assign({}, U.isEmpty($.params) ? $.options : $.params);											
 		var sql = DB(); 		
 		sql.debug = true;
 		
 		if (!o.id) return $.success(false);
-		sql.update('user', 'user').make(function (builder) {			
+
+		sql.update('user', 'user').make(function (builder) {	
 			builder.set('status', -1);	//change status		
 			builder.where('id', o.id);			
-		})	
+		})
+
 		sql.exec(function(err, resp) {                      
 			if (err) {
 				LOGGER('error', 'User/remove', err);
@@ -96,6 +105,7 @@ NEWSCHEMA('User', function(schema) {
 			if (!resp) $.success(false, 'User not found');
 			return $.success(true);
 		}, 'user')	
+
 	});
 
 	schema.addWorkflow('grid', function($) {		
@@ -129,18 +139,22 @@ NEWSCHEMA('User', function(schema) {
 			$.callback({'total': resp.count, 'rows': resp.items});
 		}, 'user');	
 
-
+		
     });
 })
+
 
 NEWSCHEMA('User/Login', function(schema) {
 	schema.define('login', 	       'String(40)',  true);
 	schema.define('password',      'String(50)',  true);    
 	schema.define('autologin', 	   'Boolean',    false);
+
 	schema.addWorkflow('exec', async function($) {
 	    try {
        		var model = schema.clean($.model);
+       		var model = schema.clean($.model);       		
             var user = await Pr.get('User', model);	
+
             if (!user) {            	
                 $.success(false, RESOURCE('!user_pass'));                
                 return; 

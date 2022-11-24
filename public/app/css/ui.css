@@ -343,6 +343,17 @@ input:invalid { box-shadow: none; }
 /*LISTMENU*/
 .listmenu a { display: block; padding: 2px 5px; }
 .listmenu .selected { background-color: #F0F0F0; }
+
+/*LESTBOX*/
+.ui-listbox { border: 1px solid #E0E0E0; font-size: 14px; color: #000; position: relative; }
+.ui-listbox ul {list-style-type: none; width: 100%; overflow: auto; margin: 0; padding: 0; overflow-scrolling: touch; }
+.ui-listbox li { border-bottom: 1px solid #E0E0E0; padding: 5px 10px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; overflow-scrolling: }
+.ui-listbox li .fa { width: 22px; font-size: 12px; border-right: 1px solid #E0E0E0; margin-right: 7px; color: #A0A0A0; }
+.ui-listbox li:hover { background-color: #F0F0F0; }
+.ui-listbox-selected { background-color: #FFE7A4 !important; font-weight: bold; }
+.ui-listbox-search-empty { height: 34px; }
+.ui-listbox-search { border-bottom: 1px solid #E0E0E0; height: 34px; background-color: #FFF; position: absolute; width: 100%; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+ 
 /*MENU*/
 .ui-menu { position: absolute; z-index: 100; transform-origin: top left; padding: 10px 0; }
 .ui-menu-items { background-color: #FFF; padding: 5px 0; border-radius: var(--radius); box-shadow: 2px 5px 10px rgba(0,0,0,0.05); border: 1px solid #E0E0E0; position: relative; }
